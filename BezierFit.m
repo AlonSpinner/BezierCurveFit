@@ -5,7 +5,7 @@ y=cos(x)-5+0.1*randn(N,1); %col
 XY=[x,y];
 
 %% Fit bezier curve of third degree
-q=linspace(0,1,100); %assume constant intervals
+q=linspace(0,1,N); %assume constant intervals
 U=deal(zeros(N,4));
 for i=1:N
     for j=1:4
@@ -32,13 +32,15 @@ Ax=axes(Fig,'color',[0,0,0],'XColor',[1,1,1],'YColor',[1,1,1]);
 xlabel(Ax,'x'); ylabel(Ax,'y'); zlabel(Ax,'z');
 axis(Ax,'equal'); grid(Ax,'on'); hold(Ax,'on');
 
-[Ex,Ey]=deal(zeros(1,N));
-for i=1:N
+k = 10*N;
+[Ex,Ey]=deal(zeros(1,k));
+q=linspace(0,1,k); %assume constant intervals
+for i=1:k
     Ex(i)=EvalBezCrv_DeCasteljau(CP(:,1),q(i));
     Ey(i)=EvalBezCrv_DeCasteljau(CP(:,2),q(i));
 end
 
-scatter(Ax,x,y,5,'filled');
+scatter(Ax,XY(:,1),XY(:,2),5,'filled');
 plot(Ax,CP(:,1),CP(:,2),'linewidth',1,'linestyle','--');
 plot(Ax,Ex,Ey,'linewidth',2)
 h=legend(Ax,'data','control points','estimation','TextColor',[1,1,1]);
