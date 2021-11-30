@@ -1,4 +1,4 @@
-function R=EvalBezCrv_DeCasteljau(Q,q)
+function R=EvalBezCrv_DeCasteljau(q,Q)
 %{
 Evaluates Bezier Curve by given nodes and parameter
 value
@@ -10,12 +10,17 @@ https://pages.mtu.edu/~shene/COURSES/cs3621/NOTES/spline/Bezier/de-casteljau.htm
 %}
 
 %currently not used in main
-
+q = q(:);
+R = zeros(length(q),size(Q,2));
 n=size(Q,1)-1; %degree of bezier polynomial
-for k=1:(n+1)
-    for i=1:(n+1-k) %doesnt enter in first iteration
-        Q(i,:)=(1-q)*Q(i,:)+q*Q(i+1,:);
+for ii = 1:length(q)
+    qii = q(ii);
+    Qii = Q;
+    for kk=1:(n+1)
+        for jj=1:(n+1-kk) %doesnt enter in first iteration
+            Qii(jj,:)=(1-qii)*Qii(jj,:)+qii*Qii(jj+1,:);
+        end
     end
+    R(ii,:)=Qii(1,:);
 end
-R=Q(1,:);
 end

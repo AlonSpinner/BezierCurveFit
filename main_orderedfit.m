@@ -1,3 +1,5 @@
+%% clear persistent values
+clear BezFit MinDistance2BezCurve 
 %% Raw data
 N=100;
 x=linspace(0,2*pi,N)'; %col
@@ -5,20 +7,12 @@ y=cos(x)-5+0.2*randn(N,1); %col
 xy = [y,x]; %flip it to show we dont estiamte functions, but curves
 
 %% Fit bezier curve
-order=5;
-[CP,B] = BezFit(xy,order);
-
+order=4;
+CP = BezFit(xy,order);
 %% Estimate 
 N=1000;
-q=linspace(0,1,N); %assume points should be evenly spaced on curve
-U=deal(zeros(N,order+1));
-for i=1:N
-    for j=1:(order+1)
-        U(i,j)=q(i)^(j-1); %[q^0, q^1, q^2, q^3]
-    end
-end
-
-est = U*B*CP;
+u=linspace(0,1,N); %assume points should be evenly spaced on curve
+est = EvalBezCrv_DeCasteljau(u,CP);
 %% draw
 Fig=figure('color',[0,0,0]);
 Ax=axes(Fig,'color',[0,0,0],'XColor',[1,1,1],'YColor',[1,1,1]);
