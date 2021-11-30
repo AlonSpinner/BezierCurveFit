@@ -1,4 +1,4 @@
-function CP = BezFit(xy,order)
+function CP = BezFit(xy,order,xy0,xyn)
 %xy - [x,y] size mx2
 %order - scalar, order of bezier curve
 
@@ -17,6 +17,11 @@ if isempty(B)
     pinv=@(A) (A'*A)\A'; %psuedo inverse matrix (moore-pensrose)
 end
 %-----prep
+
+if nargin>2 %enforce starting and ending points for nonordered optimization
+    xy(1,:) = xy0;
+    xy(end,:) = xyn;
+end
 
 %XY=U*B*CP
 CP=zeros(order+1,size(xy,2)); %initalize
