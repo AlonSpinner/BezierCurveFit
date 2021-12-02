@@ -7,10 +7,10 @@ Anoise = 0.2;
 noise = Anoise*randn(N,1); %col
 y=cos(x);
 xy = [y,x];
-xymeas = [y+noise,x];
+measxy = [y+noise,x];
 %% Fit bezier curve
 order=4;
-CP = BezFit(xymeas,order);
+CP = BezFit(measxy,order);
 %% Estimate 
 N=1000;
 u=linspace(0,1,N); %assume points should be evenly spaced on curve
